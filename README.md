@@ -8,7 +8,10 @@ Proyecto de **Diseño de Interfaces de Programación Avanzado**: gestor de pedid
 
 🔗 **GitHub Pages:** https://TU_USUARIO.github.io/evaluacion03-js/
 
+📄 **Evidencias (capturas):** [Descargar documento Word](evidencias/Evidencias-Evaluacion03.docx)
+
 ## Tabla de contenidos
+- [Evidencias](#evidencias)
 - [P1 – DOM, eventos y objetos](#p1--dom-eventos-y-objetos)
 - [P2 – ES6+ y módulos](#p2--es6-y-módulos)
 - [P3 – Fetch y async/await](#p3--fetch-y-asyncawait)
@@ -16,6 +19,26 @@ Proyecto de **Diseño de Interfaces de Programación Avanzado**: gestor de pedid
 - [Bitácora de IA](#bitácora-de-ia)
 - [Checklist](#checklist-de-entregables)
 - [Conclusión](#conclusión)
+
+## Evidencias
+
+Todas las capturas están en el documento [Evidencias-Evaluacion03.docx](evidencias/Evidencias-Evaluacion03.docx), numeradas como figuras:
+
+| Figura | Pregunta | Contenido |
+| --- | --- | --- |
+| 1 | P1 | Página funcionando (lista y total) |
+| 2 | P1 | Prueba de seguridad **antes** (`innerHTML`) |
+| 3 | P1 | Prueba de seguridad **después** (`textContent`) |
+| 4 | P2 | Error en consola con `file://` |
+| 5 | P2 | Consola con Live Server: total correcto 23.60 |
+| 6 | P2 | Código antiguo: total 28.91 |
+| 7 | P2 | Página funcionando con módulos |
+| 8 | P3 | Estado "Cargando…" |
+| 9 | P3 | Éxito (ciudad, región, temperatura y viento) |
+| 10 | P3 | Ciudad no encontrada |
+| 11 | P3 | Sin conexión (modo Offline) |
+| 12 | P3 | Tabla de tiempos secuencial vs `Promise.all` |
+| 13 | P3 | `Promise.allSettled` con ciudad inválida |
 
 ## P1 – DOM, eventos y objetos
 
@@ -37,20 +60,16 @@ lista.addEventListener('click', (e) => {
 
 **Delegación de eventos:** un solo listener en el `<ul>` funciona también para los pedidos creados después, usa menos memoria y evita añadir/quitar listeners en cada `render()`.
 
-**Prueba de seguridad** con `<img src=x onerror="alert(1)">`:
-
-| Antes (`innerHTML`) | Después (`textContent`) |
-| --- | --- |
-| ![antes](img/p1-xss-antes.png) | ![después](img/p1-xss-despues.png) |
+**Prueba de seguridad** con `<img src=x onerror="alert(1)">`: ver **Figura 2 (antes)** y **Figura 3 (después)** en el Word.
 
 Con `innerHTML` el navegador interpreta el texto como HTML y ejecuta el `onerror` (XSS). Con `textContent` se muestra como texto literal. **Decisión: `textContent`/`createElement`**, porque el producto lo escribe el usuario.
 
-Capturas de funcionamiento: ![p1](img/p1-funcionando.png)
+Funcionamiento de la página: ver **Figura 1**.
 
 ## P2 – ES6+ y módulos
 
 **Cálculo manual:** Café 6×2 = 12; Croissant 4.5×0 = 0; Jugo 8×1 = 8 → subtotal 20 → ×1.18 = **S/ 23.60**.
-El código antiguo devuelve **S/ 28.91** porque `cantidad || 1` trata el `0` como falso y lo vuelve 1 (suma 4.5 de más → 24.5×1.18). Con `??` solo se usa 1 si es `null`/`undefined`.
+El código antiguo devuelve **S/ 28.91** (**Figura 6**) porque `cantidad || 1` trata el `0` como falso y lo vuelve 1 (suma 4.5 de más → 24.5×1.18). Con `??` solo se usa 1 si es `null`/`undefined`. Resultado corregido: **Figura 5**.
 
 ```js
 const calcularTotal = (pedidos) =>
@@ -71,8 +90,7 @@ const calcularTotal = (pedidos) =>
 
 **Exports:** `export default` para la clase `Pedido` (lo principal del módulo); `export` nombrado para `IGV`, `calcularTotal`, `resumen` (varias utilidades que se importan por nombre).
 
-**Error con `file://`:** ![error file](img/p2-error-file.png)
-Los módulos se cargan con CORS y `file://` no tiene origen válido, el navegador los bloquea. Se soluciona sirviendo por HTTP (Live Server).
+**Error con `file://`:** ver **Figura 4**. Los módulos se cargan con CORS y `file://` no tiene origen válido, el navegador los bloquea. Se soluciona sirviendo por HTTP (Live Server). Página funcionando con módulos: **Figura 7**.
 
 ## P3 – Fetch y async/await
 
@@ -83,14 +101,14 @@ Los módulos se cargan con CORS y `file://` no tiene origen válido, el navegado
 
 `fetch` **no** lanza error con 404/500 porque la promesa solo se rechaza si falla la red; una respuesta HTTP, aunque sea de error, es una respuesta válida. Por eso se verifica `response.ok`.
 
-| Estado | Captura |
+| Estado | Evidencia en el Word |
 | --- | --- |
-| Cargando | ![](img/p3-cargando.png) |
-| Éxito | ![](img/p3-exito.png) |
-| Ciudad no encontrada | ![](img/p3-no-encontrada.png) |
-| Sin conexión | ![](img/p3-offline.png) |
+| Cargando | Figura 8 |
+| Éxito | Figura 9 |
+| Ciudad no encontrada | Figura 10 |
+| Sin conexión | Figura 11 |
 
-**Tiempos (Lima, Cusco, Arequipa)** – ![tiempos](img/p3-tiempos.png)
+**Tiempos (Lima, Cusco, Arequipa):** ver **Figura 12**.
 
 | Medición | Secuencial (ms) | Promise.all (ms) |
 | --- | --- | --- |
@@ -101,7 +119,7 @@ Los módulos se cargan con CORS y `file://` no tiene origen válido, el navegado
 
 **Conclusión de tiempos:** _completar con tus números_ (las peticiones son independientes, en paralelo el tiempo ≈ el de la más lenta).
 
-**`all` vs `allSettled`:** elegí `allSettled`, porque si una ciudad falla (p. ej. "Xyzabc") `Promise.all` rechaza todo y se pierden las que sí funcionaron.
+**`all` vs `allSettled`:** elegí `allSettled`, porque si una ciudad falla (p. ej. "Xyzabc") `Promise.all` rechaza todo y se pierden las que sí funcionaron. Prueba en la **Figura 13**.
 
 ## Diagrama de secuencia (P3)
 
@@ -125,20 +143,21 @@ sequenceDiagram
 | # | Pregunta | IA usada | ¿Qué propuso la IA? | Decisión | ¿Por qué? |
 |---|----------|----------|---------------------|:--------:|-----------|
 | 1 | P1 | Claude | `render()` con `createElement`/`textContent` y delegación en `#lista-pedidos` | Aceptó | Probé el payload `<img onerror>` y no se ejecutó; revisé que el total salga del arreglo |
-| 2 | P1 | Claude | Rama con `innerHTML` para comparar | Corrigió | La dejé solo tras la constante `MODO_SEGURO`; con `false` salta el `alert` (captura "antes") |
-| 3 | P2 | Claude | Refactor con `cantidad ?? 1` | Aceptó | Con el arreglo del enunciado la consola da 23.60 = cálculo manual |
-| 4 | P2 | Claude | Poner `Pedido` en `export default` y utilidades con nombre | Corrigió | Lo revisé contra mis imports en `ui.js` y `main.js` y funcionó en Live Server |
+| 2 | P1 | Claude | Rama con `innerHTML` para comparar | Corrigió | La dejé solo tras la constante `MODO_SEGURO`; con `false` se ejecuta el payload (Figura 2) |
+| 3 | P2 | Claude | Refactor con `cantidad ?? 1` | Aceptó | Con el arreglo del enunciado la consola da 23.60 = cálculo manual (Figura 5) |
+| 4 | P2 | Claude | Poner `Pedido` en `export default` y utilidades con nombre | Corrigió | Lo revisé contra mis imports en `ui.js` y `main.js` y funcionó en Live Server (Figura 7) |
 | 5 | P3 | Claude | `buscarCiudad`/`obtenerClima` con `current=temperature_2m,wind_speed_10m` | Aceptó | Comparé cada parámetro y campo con open-meteo.com/en/docs |
-| 6 | P3 | Claude | `Promise.allSettled` para la ciudad inválida | Aceptó | Probé Lima, Cusco, Xyzabc: dos OK y una con error |
+| 6 | P3 | Claude | `Promise.allSettled` para la ciudad inválida | Aceptó | Probé Lima, Cusco, Xyzabc: dos OK y una con error (Figura 13) |
 
 ## Checklist de entregables
 - [x] P1: tabla de eventos, código en `p1-dom/`, capturas y prueba de seguridad
 - [x] P2: cálculo manual, código antiguo y refactorizado en `p2-modulos/`
 - [x] P3: tabla de endpoints, código en `p3-api/`, capturas de estados
 - [x] Tabla de tiempos y justificación de `all` vs `allSettled`
+- [x] Documento Word con todas las capturas en `evidencias/`
 - [x] README con badges, TOC, Mermaid, bitácora y conclusión
 - [x] Mínimo 6 commits y GitHub Pages publicado
 
 ## Conclusión
 
-Las decisiones técnicas importantes las tomé yo y las comprobé con pruebas. Elegí delegación de eventos con un solo listener en la lista porque los botones se vuelven a crear en cada `render()`. Usé `textContent` en lugar de `innerHTML` después de ver que el payload `<img onerror>` ejecutaba un `alert` con `innerHTML`. Cambié `||` por `??` porque la cantidad 0 de un pedido cancelado se convertía en 1 y el total salía S/ 28.91 en vez de S/ 23.60. Para varias ciudades preferí `Promise.allSettled`, ya que con `Promise.all` una ciudad inválida arruina todo el resultado. Entre los errores de la IA que debo vigilar están usar `innerHTML` con datos del usuario y mantener `||`, y los detecté con la consola y con cálculos manuales. Verifiqué los parámetros de Open-Meteo con su documentación oficial y no con la respuesta de la IA. La IA me ayudó en estructura repetitiva, borradores de código y en ordenar módulos, pero no en decidir seguridad, en validar resultados ni en explicar por qué algo falla; eso lo tuve que probar y entender yo para poder sustentarlo sin ayuda.
+Las decisiones técnicas importantes las tomé yo y las comprobé con pruebas. Elegí delegación de eventos con un solo listener en la lista porque los botones se vuelven a crear en cada `render()`. Usé `textContent` en lugar de `innerHTML` después de ver que el payload `<img onerror>` se ejecutaba con `innerHTML`. Cambié `||` por `??` porque la cantidad 0 de un pedido cancelado se convertía en 1 y el total salía S/ 28.91 en vez de S/ 23.60. Para varias ciudades preferí `Promise.allSettled`, ya que con `Promise.all` una ciudad inválida arruina todo el resultado. Entre los errores de la IA que debo vigilar están usar `innerHTML` con datos del usuario y mantener `||`, y los detecté con la consola y con cálculos manuales. Verifiqué los parámetros de Open-Meteo con su documentación oficial y no con la respuesta de la IA. La IA me ayudó en estructura repetitiva, borradores de código y en ordenar módulos, pero no en decidir seguridad, en validar resultados ni en explicar por qué algo falla; eso lo tuve que probar y entender yo para poder sustentarlo sin ayuda.
