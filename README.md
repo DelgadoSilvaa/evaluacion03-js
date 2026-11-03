@@ -6,7 +6,7 @@
 
 Proyecto de **Diseño de Interfaces de Programación Avanzado**: gestor de pedidos de CaféTec, refactorización moderna con módulos y widget de clima ClimaTec con Open-Meteo.
 
-🔗 **GitHub Pages:** https://github.com/DelgadoSilvaa/evaluacion03-js.git
+🔗 **GitHub Pages:** https://delgadosilvaa.github.io/evaluacion03-js/
 
 📄 **Evidencias (capturas):** [Descargar documento Word](evidencias/Evidencias-Evaluacion03.docx)
 
